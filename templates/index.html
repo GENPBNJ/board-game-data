@@ -1,1 +1,9 @@
-<h1>Hello, how you doing?</h1>
+    <div class="content">
+        {% for boardgame in boardgames %}
+            <div class="domains">
+                <p><b>Ranked #{{boardgame.bgg_rank}}</b></p>
+                <p>Board game name: {{ boardgame.name }}</p>
+                <p>Complexity: {{ boardgame.complexity }}</p>
+            </div>
+        {% endfor %}
+    </div>
