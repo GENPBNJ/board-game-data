@@ -1,9 +1,50 @@
-    <div class="content">
-        {% for boardgame in boardgames %}
-            <div class="domains">
-                <p><b>Ranked #{{boardgame.bgg_rank}}</b></p>
-                <p>Board game name: {{ boardgame.name }}</p>
-                <p>Complexity: {{ boardgame.complexity }}</p>
-            </div>
-        {% endfor %}
-    </div>
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+</head>
+
+<body>
+<table>
+    <tr>
+        <th>Rank</th>
+        <th>Board Game Name</th>
+        <th>Year Published</th>
+        <th>Min. Players</th>
+        <th>Max Players</th>
+        <th>Min Age</th>
+        <th>Play Time</th>
+        <th>Owned Users</th>
+        <!-- <th>Rating Average</th> -->
+        <th>Complexity</th>
+    </tr>
+
+    {% for boardgame in boardgames %}
+    <tr>
+        <td><b>{{boardgame.BGG_Rank}}</b></td>
+        <td>{{ boardgame.name }}</td>
+        <td>{{ boardgame.year_published }}</td>
+        <td>{{ boardgame.min_players }}</td>
+        <td>{{ boardgame.max_players }}</td>
+        <td>{{ boardgame.min_age }}</td>
+        <td>{{ boardgame.play_time }}</td>
+        <td>{{ boardgame.owned_users }}</td>
+        <!-- <td>{{ boardgame.rating_average }}</td> -->
+        <td>{{ boardgame.complexity }}</td>
+        <td><button>
+
+            <a href="{{url_for('edit', id=boardgame.id)}}">Edit</a>
+
+        </button></td>
+        <td><button>
+            <form method="POST"
+                    action="{{ url_for('delete', id=boardgame.id) }}">
+                <input type="submit" value="Delete Student"
+                    onclick="return confirm('Are you sure you want to delete this entry?')">
+            </form>
+        </button></td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

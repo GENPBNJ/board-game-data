@@ -1,0 +1,51 @@
+<h1 style="width: 100%">
+    Edit {{ boardgame.name }}
+                            <!-- {{ boardgame.domain }}
+                            {{ boardgame.mechanic }} -->
+</h1>
+<form method="post">
+    <p>
+        <label for="name"> Name</label>
+        <input type="text" name="name"
+                value={{ boardgame.name }}
+                placeholder="Name">
+        </input>
+    </p>
+
+    <!-- <p>
+        <label for="year_published">Year Published</label>
+        <input type="text" name="year_published"
+                value={{ boardgame.year_published }}
+                placeholder="Year Published">
+        </input>
+    </p>
+
+    <p>
+        <label for="min_players">Min Players</label>
+        <input type="min_players" name="min_players"
+                value={{ boardgame.min_players }}
+                placeholder="Min Players">
+        </input>
+    </p>
+
+    <p>
+        <label for="max_players">Max Players</label>
+        <input type="max_players" name="max_players"
+                value={{ boardgame.max_players }}
+                placeholder="Max Players">
+        </input>
+    </p> -->
+
+    <!-- <p>
+    <label for="bio">Bio</label>
+    <br>
+    <textarea name="bio"
+                placeholder="Bio"
+                rows="15"
+                cols="60"
+                >{{ student.bio }}</textarea>
+    </p> -->
+    <p>
+        <button type="submit">Submit</button>
+    </p>
+</form>
