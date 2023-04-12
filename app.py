@@ -63,27 +63,73 @@ def hello2():
 # @app.route('/edit/<string:name>/<string:domain>/<string:mechanic>', methods=('GET', 'POST'))
 @app.route('/<int:id>/edit', methods=('GET', 'POST'))
 # def edit(name, domain, mechanic):
-def edit(name):
+def edit(id):
 
-    boardgame = BoardGames.filter_by(id = id).first()
+    boardgame = BoardGames.query.filter_by(id = id).first()
     print(boardgame)
     if request.method == 'POST':
         name = request.form['name']
         year_published = request.form['year_published']
         min_players = request.form['min_players']
         max_players = request.form['max_players']
+        min_age = request.form['min_age']
+        play_time = request.form['play_time']
+        owned_users = request.form['owned_users']
+        rating_average = request.form['rating_average']
+        complexity = request.form['complexity']
 
         boardgame.name = name
         boardgame.year_published = year_published
         boardgame.min_players = min_players
         boardgame.max_players = max_players
+        boardgame.min_age = min_age
+        boardgame.play_time = play_time
+        boardgame.owned_users = owned_users
+        boardgame.rating_average = rating_average
+        boardgame.complexity = complexity
         
         db.session.add(boardgame)
         db.session.commit()
 
-        return redirect(url_for('index'))
+        return redirect(url_for('catalog'))
 
     return render_template('edit.html', boardgame=boardgame)
+
+@app.route('/create', methods=('GET', 'POST'))
+def create():
+    if request.method == 'GET':
+        return render_template('create.html')
+    
+    if request.method == 'POST':
+        id = request.form['id']
+        name = request.form['name']
+        # year_published = request.form['year_published']
+        # min_players = request.form['min_players']
+        # max_players = request.form['max_players']
+        # min_age = request.form['min_age']
+        # play_time = request.form['play_time']
+        # owned_users = request.form['owned_users']
+        # rating_average = request.form['rating_average']
+        # complexity = request.form['complexity']
+
+        boardgame = BoardGames(id=id, 
+                               name=name
+                            #    year_published=year_published, 
+                            #    min_players=min_players, 
+                            #    max_players=max_players,
+                            #    min_age=min_age,
+                            #    play_time=play_time,
+                            #    owned_users=owned_users,
+                            #    rating_average=rating_average,
+                            #    complexity=complexity
+                               )
+        
+        db.session.add(boardgame)
+        db.session.commit()
+
+        return redirect(url_for('catalog'))
+
+    return render_template('create.html', boardgame=boardgame)
 
 @app.route('/<int:id>/delete/', methods=['GET','POST'])
 def delete(id):

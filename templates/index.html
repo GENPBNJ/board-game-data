@@ -5,6 +5,11 @@
 </head>
 
 <body>
+    <button>            
+        <a href="{{url_for('create')}}">Add Game</a>
+    </button>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+
 <table>
     <tr>
         <th>Rank</th>
@@ -15,7 +20,7 @@
         <th>Min Age</th>
         <th>Play Time</th>
         <th>Owned Users</th>
-        <!-- <th>Rating Average</th> -->
+        <th>Rating Average</th>
         <th>Complexity</th>
     </tr>
 
@@ -29,12 +34,10 @@
         <td>{{ boardgame.min_age }}</td>
         <td>{{ boardgame.play_time }}</td>
         <td>{{ boardgame.owned_users }}</td>
-        <!-- <td>{{ boardgame.rating_average }}</td> -->
+        <td>{{ boardgame.rating_average }}</td>
         <td>{{ boardgame.complexity }}</td>
         <td><button>
-
             <a href="{{url_for('edit', id=boardgame.id)}}">Edit</a>
-
         </button></td>
         <td><button>
             <form method="POST"
