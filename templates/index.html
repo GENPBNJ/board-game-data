@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}"> -->
+    <!-- <link rel="stylesheet" href = "{{url_for('static', filename='css/tables.css')}}"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
 </head>
 
 <body>
@@ -10,44 +15,55 @@
     </button>
     <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
 
-<table>
-    <tr>
-        <th>Rank</th>
-        <th>Board Game Name</th>
-        <th>Year Published</th>
-        <th>Min. Players</th>
-        <th>Max Players</th>
-        <th>Min Age</th>
-        <th>Play Time</th>
-        <th>Owned Users</th>
-        <th>Rating Average</th>
-        <th>Complexity</th>
-    </tr>
+    <div class ='scrollingTable'>
+        <table id = "catalog" class="display" data-page-length="25" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Board Game Name</th>
+                    <th>Year Published</th>
+                    <th>Min. Players</th>
+                    <th>Max Players</th>
+                    <th>Min Age</th>
+                    <th>Play Time</th>
+                    <th>Owned Users</th>
+                    <th>Rating Average</th>
+                    <th>Complexity</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
 
-    {% for boardgame in boardgames %}
-    <tr>
-        <td><b>{{boardgame.BGG_Rank}}</b></td>
-        <td>{{ boardgame.name }}</td>
-        <td>{{ boardgame.year_published }}</td>
-        <td>{{ boardgame.min_players }}</td>
-        <td>{{ boardgame.max_players }}</td>
-        <td>{{ boardgame.min_age }}</td>
-        <td>{{ boardgame.play_time }}</td>
-        <td>{{ boardgame.owned_users }}</td>
-        <td>{{ boardgame.rating_average }}</td>
-        <td>{{ boardgame.complexity }}</td>
-        <td><button>
-            <a href="{{url_for('edit', id=boardgame.id)}}">Edit</a>
-        </button></td>
-        <td><button>
-            <form method="POST"
-                    action="{{ url_for('delete', id=boardgame.id) }}">
-                <input type="submit" value="Delete Student"
-                    onclick="return confirm('Are you sure you want to delete this entry?')">
-            </form>
-        </button></td>
-    </tr>
-    {% endfor %}
-</table>
+            {% for boardgame in boardgames %}
+            <tr>
+                <td><b>{{boardgame.BGG_Rank}}</b></td>
+                <td>{{ boardgame.name }}</td>
+                <td>{{ boardgame.year_published }}</td>
+                <td>{{ boardgame.min_players }}</td>
+                <td>{{ boardgame.max_players }}</td>
+                <td>{{ boardgame.min_age }}</td>
+                <td>{{ boardgame.play_time }}</td>
+                <td>{{ boardgame.owned_users }}</td>
+                <td>{{ boardgame.rating_average }}</td>
+                <td>{{ boardgame.complexity }}</td>
+                <td><button>
+                    <a href="{{url_for('edit', id=boardgame.id)}}">Edit</a>
+                </button></td>
+                <td>
+                    <form action="{{ url_for('delete', id=boardgame.id) }}">
+                        <button type = 'submit' formmethod="POST" onclick="return confirm('Are you sure you want to delete this entry?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
+<script>
+$(document).ready(function () {
+    $('#catalog').DataTable();
+});
+</script>
 </html>
