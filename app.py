@@ -33,6 +33,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+    privilege = db.Column(db.String(20), nullable =False, default = 'user')
 
 class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
@@ -61,7 +62,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class BoardGames(db.Model):
-    # __tablename__='allboardgamedetails'
     __tablename__='bgg_dataset'
     id = db.Column(db.Integer, primary_key = True, nullable = False)
     name = db.Column(db.String)
@@ -78,11 +78,11 @@ class BoardGames(db.Model):
     mechanics = db.Column(db.String)
 
 
-@app.route('/')
-def home():
-    return render_template('home.html')
+# @app.route('/')
+# def home():
+#     return render_template('home.html')
 
-@app.route('/login', methods=('GET', 'POST'))
+@app.route('/', methods=('GET', 'POST'))
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -91,7 +91,6 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 username= request.form.get('username')
-                print(username)
                 return redirect(url_for('catalog', username=username))
     return render_template('login.html', form=form)
 
@@ -132,16 +131,17 @@ def catalog():
                                                 BoardGames.complexity,
                                                 BoardGames.domains,
                                                 BoardGames.mechanics
-                                                # ).filter(BoardGames.domain == 'Thematic Games', BoardGames.mechanic == 'Variable Player Powers'
+                                                # ).filter(BoardGames.name == 'Gloomhaven'
+                                                # ).order_by(BoardGames.BGG_Rank).distinct().limit(21000)
                                                 ).order_by(BoardGames.BGG_Rank).distinct().limit(100)
     username = request.args.get('username', None)
-    return render_template('index.html', boardgames=boardgames, username=username)
+    print(type(BoardGames.BGG_Rank))
+    users = User.query.with_entities(User.username, User.privilege).filter(User.username == 'thomas')
+    return render_template('index.html', boardgames=boardgames, users=users)
 
 
-# @app.route('/edit/<string:name>/<string:domain>/<string:mechanic>', methods=('GET', 'POST'))
 @app.route('/<int:id>/edit', methods=('GET', 'POST'))
 @login_required      
-# def edit(name, domain, mechanic):
 def edit(id):
 
     boardgame = BoardGames.query.filter_by(id = id).first()
@@ -156,6 +156,8 @@ def edit(id):
         owned_users = request.form['owned_users']
         rating_average = request.form['rating_average']
         complexity = request.form['complexity']
+        domains = request.form['domains']
+        mechanics = request.form['mechanics']
 
         boardgame.name = name
         boardgame.year_published = year_published
@@ -166,6 +168,8 @@ def edit(id):
         boardgame.owned_users = owned_users
         boardgame.rating_average = rating_average
         boardgame.complexity = complexity
+        boardgame.domains = domains
+        boardgame.mechanics = mechanics
         
         db.session.add(boardgame)
         db.session.commit()
@@ -192,6 +196,8 @@ def create():
             owned_users = request.form['owned_users']
             rating_average = request.form['rating_average']
             complexity = request.form['complexity']
+            domains = request.form['domains']
+            mechanics = request.form['mechanics']
 
             boardgame = BoardGames(id=id, 
                                    name=name,
@@ -202,12 +208,12 @@ def create():
                                    play_time=play_time,
                                    owned_users=owned_users,
                                    rating_average=rating_average,
-                                   complexity=complexity
+                                   complexity=complexity,
+                                   domains=domains,
+                                   mechanics=mechanics
                                 )
-            
             db.session.add(boardgame)
             db.session.commit()
-
             return redirect(url_for('catalog'))
         return render_template('create.html', boardgame=boardgame)
     except:

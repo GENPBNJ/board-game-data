@@ -1,14 +1,53 @@
-<form action='' method = "POST">
-    <p>ID <input type = "integer" name = "id" /></p>
-    <p>Name <input type = "text" name = "name" /></p>
-    <p>Year Published <input type = "integer" name = "year_published" /></p>
-    <p>Min. Players <input type = "integer" name = "min_players" /></p>
-    <p>Max Players <input type = "integer" name = "max_players" /></p>
-    <p>Min Age <input type = "integer" name = "min_age" /></p>
-    <p>Play Time <input type = "integer" name = "play_time" /></p>
-    <p>Owned Users <input type = "integer" name = "owned_users" /></p>
-    <p>Rating Average <input type = "number " name = "rating_average" /></p>
-    <p>Complexity <input type = "number " name = "complexity" /></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href = "{{url_for('static', filename='css/form.css')}}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add</title>
+</head>
+
+<form class = 'form' action='' method = "POST">
+    <h1>Add Game</h1>
+    <div class="form-input-material">
+        <p>ID  <input type = "integer" name = "id" /></p>
+    </div>
+    <div class="form-input-material">
+        <p>Name  <input type = "text" name = "name" /></p>
+    </div>
+    <div class="form-input-material">
+        <p>Year Published  <input type = "integer" name = "year_published" /></p>
+    </div>
+    <div class="form-input-material">
+        <p>Min. Players  <input type = "integer" name = "min_players" /></p>
+    </div>
+    <div class="form-input-material">
+        <p>Max Players  <input type = "integer" name = "max_players" /></p>
+    </div>
+    <div class="form-input-material">
+        <p>Min Age  <input type = "integer" name = "min_age" /></p>
+    </div>
+    <div class="form-input-material">
+        <p>Play Time  <input type = "integer" name = "play_time" /></p>
+    </div>
+    <div class="form-input-material">
+        <p>Owned Users  <input type = "integer" name = "owned_users" /></p>
+    </div>
+    <div class="form-input-material">
+        <p>Rating Average  <input type = "number " name = "rating_average" /></p>
+    </div>
+    <div class="form-input-material">
+        <p>Complexity  <input type = "number " name = "complexity" /></p>
+    </div>
+    <div class="form-input-material">
+        <p>Domains  <input type = "text " name = "domains" /></p>
+    </div>
+    <div class="form-input-material">
+        <p>Mechanics  <input type = "text " name = "mechanics" /></p>
+    </div>
+    
+
     <p>
         <button type="submit">Submit</button>
         <button href="{{url_for('catalog')}}">Back</button>

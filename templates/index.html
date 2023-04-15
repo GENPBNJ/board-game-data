@@ -2,75 +2,97 @@
 <html>
 <head>
     <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}"> -->
-    <!-- <link rel="stylesheet" href = "{{url_for('static', filename='css/tables.css')}}"> -->
+    <link rel="stylesheet" href = "{{url_for('static', filename='css/table.css')}}">
     <link rel="stylesheet" href = "{{url_for('static', filename='css/header.css')}}">
+    <link rel="stylesheet" href = "{{url_for('static', filename='css/styles.css')}}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
 </head>
-
 <body>
-    <div class="topnav">
-        <div class='logout'>
-            <a href="{{url_for('logout')}}">Logout</a>
+    {% for user in users %}
+    <div class = 'table'>
+        <div class="topnav">
+            <div class="center">
+                <h1>Board Game Catalog</h1>
+            </div>
+            
+            <div class='clickable'>
+                <a href="{{url_for('logout')}}">Logout</a>
+            </div>
+
+            {% if user.privilege == 'admin'%}
+            <div class ='clickable'>          
+                <a href="{{url_for('create')}}">Add Game</a>
+            </div>
+            {% endif %}
+
+            <a>{{user.username}}</a>
         </div>
-        <a>{{username}}</a>
+
+            <table id = "catalog" class="display" data-page-length="25" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Board Game Name</th>
+                        <th>Year Published</th>
+                        <th>Min. Players</th>
+                        <th>Max Players</th>
+                        <th>Min Age</th>
+                        <th>Play Time</th>
+                        <th>Owned Users</th>
+                        <th>Rating Average</th>
+                        <th>Complexity</th>
+                        <th>Domains</th>
+                        <th>Mechanics</th>
+                        {% if user.privilege == 'admin'%}
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for boardgame in boardgames %}
+                    <tr>
+                        <td><b id = 'rank'>{{boardgame.BGG_Rank}}</b></td>
+                        <td>{{ boardgame.name }}</td>
+                        <td>{{ boardgame.year_published }}</td>
+                        <td>{{ boardgame.min_players }}</td>
+                        <td>{{ boardgame.max_players }}</td>
+                        <td>{{ boardgame.min_age }}</td>
+                        <td>{{ boardgame.play_time }}</td>
+                        <td>{{ boardgame.owned_users }}</td>
+                        <td>{{ boardgame.rating_average }}</td>
+                        <td>{{ boardgame.complexity }}</td>
+                        <td>{{ boardgame.domains }}</td>
+                        <td>{{ boardgame.mechanics }}</td>
+                        {% if user.privilege == 'admin'%}
+                            <td><button>
+                                <a href="{{url_for('edit', id=boardgame.id)}}">Edit</a>
+                            </button></td>
+                            <td>
+                                <form action="{{ url_for('delete', id=boardgame.id) }}">
+                                    <button type = 'submit' formmethod="POST" onclick="return confirm('Are you sure you want to delete this entry?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
     </div>
-
-    <button>            
-        <a href="{{url_for('create')}}">Add Game</a>
-    </button>
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
-
-    <div class ='scrollingTable'>
-        <table id = "catalog" class="display" data-page-length="25" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Board Game Name</th>
-                    <th>Year Published</th>
-                    <th>Min. Players</th>
-                    <th>Max Players</th>
-                    <th>Min Age</th>
-                    <th>Play Time</th>
-                    <th>Owned Users</th>
-                    <th>Rating Average</th>
-                    <th>Complexity</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-
-            {% for boardgame in boardgames %}
-            <tr>
-                <td><b>{{boardgame.BGG_Rank}}</b></td>
-                <td>{{ boardgame.name }}</td>
-                <td>{{ boardgame.year_published }}</td>
-                <td>{{ boardgame.min_players }}</td>
-                <td>{{ boardgame.max_players }}</td>
-                <td>{{ boardgame.min_age }}</td>
-                <td>{{ boardgame.play_time }}</td>
-                <td>{{ boardgame.owned_users }}</td>
-                <td>{{ boardgame.rating_average }}</td>
-                <td>{{ boardgame.complexity }}</td>
-                <td><button>
-                    <a href="{{url_for('edit', id=boardgame.id)}}">Edit</a>
-                </button></td>
-                <td>
-                    <form action="{{ url_for('delete', id=boardgame.id) }}">
-                        <button type = 'submit' formmethod="POST" onclick="return confirm('Are you sure you want to delete this entry?')">
-                            Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+    {% endfor %}
+    <script src='static/js/script.js'></script>
 </body>
 <script>
+
+document.getElementById("rank").innerHTML = parseInt(101);
+
 $(document).ready(function () {
     $('#catalog').DataTable();
 });

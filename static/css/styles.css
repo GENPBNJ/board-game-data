@@ -2,7 +2,7 @@
   border:1px solid black;
 } */
 
-table.status tr{
+/* table.status tr{
   clear:both;
 }
 table.status td{
@@ -14,5 +14,20 @@ table.status td:first-child{
   
   background:blue;
   color:#fff;
+} */
+
+tbody tr.hide{
+  opacity:0;
+  transform: translateX(100%);
 }
 
+tbody tr.hide td,
+tbody tr.hide td b,
+tbody tr.hide button,
+tbody tr.hide button a,
+tbody tr.hide form,
+tbody tr.hide form button{
+    padding: 0;
+    font: 0 / 0 sans-serif;
+    transition: .2s ease-in-out .5s;
+}
