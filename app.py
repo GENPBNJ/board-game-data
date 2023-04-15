@@ -3,6 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 import pymysql
 import secrets
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import InputRequired, Length, ValidationError
+from flask_bcrypt import Bcrypt
+
 
 conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
 # conn = "mysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
@@ -12,6 +18,47 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SuperSecretKey'
 app.config['SQLALCHEMY_DATABASE_URI'] = conn
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+
+class RegisterForm(FlaskForm):
+    username = StringField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={'placeholder': "Username"})
+    
+    password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={'placeholder': "Password"})
+    
+    submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        existing_user_username = User.query.filter_by(
+            username = username.data).first()
+        
+        if existing_user_username:
+            raise ValidationError(
+                "That username already exists. Please choose a different one.")
+
+class LoginForm(FlaskForm):
+    username = StringField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={'placeholder': "Username"})
+    
+    password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={'placeholder': "Password"})
+    
+    submit = SubmitField('Login')
 
 class BoardGames(db.Model):
     # __tablename__='allboardgamedetails'
@@ -30,7 +77,47 @@ class BoardGames(db.Model):
     domains = db.Column(db.String)
     mechanics = db.Column(db.String)
 
-@app.route('/catalog')          
+
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+@app.route('/login', methods=('GET', 'POST'))
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user=User.query.filter_by(username=form.username.data).first()
+        if user:
+            if bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user)
+                username= request.form.get('username')
+                print(username)
+                return redirect(url_for('catalog', username=username))
+    return render_template('login.html', form=form)
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+@ app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        new_user = User(username=form.username.data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))
+
+    return render_template('register.html', form=form)
+
+
+@app.route('/catalog')    
+@login_required      
 def catalog():
     boardgames = BoardGames.query.with_entities(BoardGames.id, 
                                                 BoardGames.name,
@@ -47,21 +134,13 @@ def catalog():
                                                 BoardGames.mechanics
                                                 # ).filter(BoardGames.domain == 'Thematic Games', BoardGames.mechanic == 'Variable Player Powers'
                                                 ).order_by(BoardGames.BGG_Rank).distinct().limit(100)
-    return render_template('index.html', boardgames=boardgames)
+    username = request.args.get('username', None)
+    return render_template('index.html', boardgames=boardgames, username=username)
 
-
-@app.route('/')
-def hello():
-    # boardgames = BoardGames.query.filter(BoardGames.domain == 'Thematic Games', BoardGames.mechanic == 'Dice Rolling').all()
-    return render_template('home.html')
-
-@app.route('/hello2')
-def hello2():
-    # boardgames = BoardGames.query.filter(BoardGames.domain == 'Thematic Games', BoardGames.mechanic == 'Dice Rolling').all()
-    return render_template('home1.html')
 
 # @app.route('/edit/<string:name>/<string:domain>/<string:mechanic>', methods=('GET', 'POST'))
 @app.route('/<int:id>/edit', methods=('GET', 'POST'))
+@login_required      
 # def edit(name, domain, mechanic):
 def edit(id):
 
@@ -96,6 +175,7 @@ def edit(id):
     return render_template('edit.html', boardgame=boardgame)
 
 @app.route('/create', methods=('GET', 'POST'))
+@login_required      
 def create():
     if request.method == 'GET':
         return render_template('create.html')
@@ -134,6 +214,7 @@ def create():
         return redirect(url_for('catalog'))
 
 @app.route('/<int:id>/delete/', methods=['GET','POST'])
+@login_required      
 def delete(id):
     boardgame = BoardGames.query.filter_by(id = id).first()
     if request.method == 'POST':

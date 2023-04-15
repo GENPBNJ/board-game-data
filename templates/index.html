@@ -3,6 +3,8 @@
 <head>
     <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}"> -->
     <!-- <link rel="stylesheet" href = "{{url_for('static', filename='css/tables.css')}}"> -->
+    <link rel="stylesheet" href = "{{url_for('static', filename='css/header.css')}}">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -10,6 +12,13 @@
 </head>
 
 <body>
+    <div class="topnav">
+        <div class='logout'>
+            <a href="{{url_for('logout')}}">Logout</a>
+        </div>
+        <a>{{username}}</a>
+    </div>
+
     <button>            
         <a href="{{url_for('create')}}">Add Game</a>
     </button>

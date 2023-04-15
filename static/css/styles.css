@@ -1,4 +1,18 @@
-table, th, td {
+/* table, th, td {
   border:1px solid black;
+} */
+
+table.status tr{
+  clear:both;
+}
+table.status td{
+  float:left;
+  width:100px;
+  border:1px solid #DDD;
+}
+table.status td:first-child{
+  
+  background:blue;
+  color:#fff;
 }
 
