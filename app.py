@@ -135,7 +135,6 @@ def catalog():
                                                 # ).order_by(BoardGames.BGG_Rank).distinct().limit(21000)
                                                 ).order_by(BoardGames.BGG_Rank).distinct().limit(100)
     username = request.args.get('username', None)
-    print(type(BoardGames.BGG_Rank))
     users = User.query.with_entities(User.username, User.privilege).filter(User.username == 'thomas')
     return render_template('index.html', boardgames=boardgames, users=users)
 

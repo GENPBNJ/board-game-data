@@ -5,104 +5,148 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add</title>
+    <title>Edit</title>
 </head>
 
 <form class = 'form' method="post">
-    <h1 style="width: 100%">
+    <h1 style="text-align:center">
         Edit {{ boardgame.name }}
                                 <!-- {{ boardgame.domain }}
                                 {{ boardgame.mechanic }} -->
     </h1>
-    
-    <p>
-        <label for="name">Name </label>
-        <input type="text" name="name"
-                value= "{{boardgame.name}}"
-                placeholder="Name">
-        </input>
-    </p>
+    <table>
+        <tr>
+            <td>
+                <label for="name">Name </label>
+            </td>
+            <td>
+                <input type="text" name="name"
+                        value= "{{boardgame.name}}"
+                        placeholder="Name">
+                </input>
+            </td>
+        </tr>
 
-    <p>
-        <label for="year_published">Year Published </label>
-        <input type="text" name="year_published"
-                value={{ boardgame.year_published }}
-                placeholder="Year Published">
-        </input>
-    </p>
+        <tr>
+            <td>
+                <label for="year_published">Year Published </label>
+            </td>
+            <td>
+                <input type="text" name="year_published"
+                        value= "{{boardgame.year_published}}"
+                        placeholder="Year Published">
+                </input>
+            </td>
+        </tr>
 
-    <p>
-        <label for="min_players">Min Players </label>
-        <input type="min_players" name="min_players"
-                value={{ boardgame.min_players }}
-                placeholder="Min Players">
-        </input>
-    </p>
+        <tr>
+            <td>
+                <label for="min_players">Min Players</label>
+            </td>
+            <td>
+                <input type="text" name="min_players"
+                        value= "{{boardgame.min_players}}"
+                        placeholder="Min Players">
+                </input>
+            </td>
+        </tr>
 
-    <p>
-        <label for="max_players">Max Players </label>
-        <input type="max_players" name="max_players"
-                value={{ boardgame.max_players }}
-                placeholder="Max Players">
-        </input>
-    </p>
+        <tr>
+            <td>
+                <label for="max_players">Max Players</label>
+            </td>
+            <td>
+                <input type="text" name="max_players"
+                        value= "{{boardgame.max_players}}"
+                        placeholder="Max Players">
+                </input>
+            </td>
+        </tr>
 
-    <p>
-        <label for="min_age">Min Age </label>
-        <input type="min_age" name="min_age"
-                value={{ boardgame.min_age }}
-                placeholder="Min Age">
-        </input>
-    </p>
+        <tr>
+            <td>
+                <label for="min_age">Min Age</label>
+            </td>
+            <td>
+                <input type="text" name="min_age"
+                        value= "{{boardgame.min_age}}"
+                        placeholder="Min Age">
+                </input>
+            </td>
+        </tr>
 
-    <p>
-        <label for="play_time">Play Time </label>
-        <input type="play_time" name="play_time"
-                value={{ boardgame.play_time }}
-                placeholder="Play Time">
-        </input>
-    </p>
+        <tr>
+            <td>
+                <label for="play_time">Play Time </label>
+            </td>
+            <td>
+                <input type="text" name="play_time"
+                        value= "{{boardgame.play_time}}"
+                        placeholder="Play Time">
+                </input>
+            </td>
+        </tr>
 
-    <p>
-        <label for="owned_users">Owned Users </label>
-        <input type="owned_users" name="owned_users"
-                value={{ boardgame.owned_users }}
-                placeholder="Owned Users">
-        </input>
-    </p>
+        <tr>
+            <td>
+                <label for="owned_users">Owned Users </label>
+            </td>
+            <td>
+                <input type="text" name="owned_users"
+                        value= "{{boardgame.owned_users}}"
+                        placeholder="Owned Users">
+                </input>
+            </td>
+        </tr>
 
-    <p>
-        <label for="rating_average">Rating Average </label>
-        <input type="rating_average" name="rating_average"
-                value={{ boardgame.rating_average }}
-                placeholder="Rating Average">
-        </input>
-    </p>
+        <tr>
+            <td>
+                <label for="rating_average">Rating Average </label>
+            </td>
+            <td>
+                <input type="text" name="rating_average"
+                        value= "{{boardgame.rating_average}}"
+                        placeholder="Rating Average">
+                </input>
+            </td>
+        </tr>
 
-    <p>
-        <label for="complexity">Complexity </label>
-        <input type="complexity" name="complexity"
-                value={{ boardgame.complexity }}
-                placeholder="Complexity">
-        </input>
-    </p>
+        <tr>
+            <td>
+                <label for="complexity">Complexity </label>
+            </td>
+            <td>
+                <input type="text" name="complexity"
+                        value= "{{boardgame.complexity}}"
+                        placeholder="Complexity">
+                </input>
+            </td>
+        </tr>
 
-    <p>
-        <label for="domains">Domains </label>
-        <input type="domains" name="domains"
-                value={{ boardgame.domains }}
-                placeholder="Domains">
-        </input>
-    </p>
+        <tr>
+            <td>
+                <label for="domains">Domains </label>
+            </td>
+            <td>
+                <input type="text" name="domains"
+                        value= "{{boardgame.domains}}"
+                        placeholder="Domains">
+                </input>
+            </td>
+        </tr>
 
-    <p>
-        <label for="mechanics">Mechanics </label>
-        <input type="mechanics" name="mechanics"
-                value={{ boardgame.mechanics }}
-                placeholder="Mechanics">
-        </input>
-    </p>
-
+        <tr>
+            <td>
+                <label for="mechanics">Mechanics </label>
+            </td>
+            <td>
+                <input type="text" name="mechanics"
+                        value= "{{boardgame.mechanics}}"
+                        placeholder="Mechanics">
+                </input>
+            </td>
+        </tr>
+    </table>
     <p>
         <button type="submit">Submit</button>
         <button href="{{url_for('catalog')}}">Back</button>
