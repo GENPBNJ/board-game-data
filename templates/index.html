@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}"> -->
     <link rel="stylesheet" href = "{{url_for('static', filename='css/table.css')}}">
     <link rel="stylesheet" href = "{{url_for('static', filename='css/header.css')}}">
     <link rel="stylesheet" href = "{{url_for('static', filename='css/styles.css')}}">
@@ -92,7 +91,9 @@
 <script>
 
 $(document).ready(function () {
-    $('#catalog').DataTable();
+    $('#catalog').DataTable({
+        "aaSorrting": [[0, 'asc']],}
+    );
 });
 </script>
 </html>
