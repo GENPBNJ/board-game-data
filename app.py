@@ -77,11 +77,6 @@ class BoardGames(db.Model):
     domains = db.Column(db.String)
     mechanics = db.Column(db.String)
 
-
-# @app.route('/')
-# def home():
-#     return render_template('home.html')
-
 @app.route('/', methods=('GET', 'POST'))
 def login():
     form = LoginForm()
