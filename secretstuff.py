@@ -5,7 +5,7 @@
 # dbname = 'board_games'
 
 dbhost = 'us-cdbr-east-06.cleardb.net'
-dbuser = 'b6eea5019017de'
-dbpass = '15368e29'
+dbuser = 'b368fbdb4e2c26'
+dbpass = '92e2173a'
 dbname = 'board_games'
 
