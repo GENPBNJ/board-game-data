@@ -131,11 +131,10 @@ def catalog():
                                                 BoardGames.complexity,
                                                 BoardGames.domains,
                                                 BoardGames.mechanics
-                                                # ).filter(BoardGames.name == 'Gloomhaven'
-                                                # ).order_by(BoardGames.BGG_Rank).distinct().limit(21000)
-                                                ).order_by(BoardGames.BGG_Rank).distinct().limit(100)
+                                                ).order_by(BoardGames.BGG_Rank).distinct().limit(21000)
     username = request.args.get('username', None)
     users = User.query.with_entities(User.username, User.privilege).filter(User.username == 'thomas')
+
     return render_template('index.html', boardgames=boardgames, users=users)
 
 
