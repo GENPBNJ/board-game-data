@@ -1,1 +1,1 @@
-web: gunicorn board-game-data:app
+web: gunicorn run:app
